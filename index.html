@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kmitra Blog</title>
+    <style>
+    
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2a2727da;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 36px;
+            font-weight: 700;
+        }
+
+        .blog-container {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px,1fr));
+            grid-gap: 20px;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /*This property ensures that the image fills the container while preserving aspect ratio */
+        }
+
+        .blog {
+            background-color: #ffffffa8;
+            border: #000000 solid 2px;
+            padding: 20px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .blog h2 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .blog p {
+            margin-bottom: 10px;
+        }
+        .blog:hover h2 {
+            color: #007bff;
+        }
+        
+        .blog-sort {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .blog-sort label {
+            color: #ccc;
+            font-size: 25px;
+            margin-right: 10px;
+        }
+
+        .like-button {
+            color: #181717;
+            cursor: pointer;
+            font-size: large;
+            border: none;
+            background-color: transparent;
+            
+        }
+        .highlight {
+            
+            color:  #007bff;
+        }
+
+        select#sortSelect {
+            font-size: 16px;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 6px;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            background-color:#ccc;
+        }
+
+        @media screen and (max-width: 768px) {
+            .blog-container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .blog {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <header>
+        <h1>Kmitra Blogs</h1>
+        <p>Your source for insightful articles and stories.</p>
+    </header>
+    <main>
+        <div class="blog-sort">
+            <label for="sortSelect">Sort By:</label>
+            <select id="sortSelect">
+                <!-- providing menu to the user -->
+                <option value="titleAscending">Title (A to Z)</option>
+                <option value="titleDescending">Title (Z to A)</option>
+                <option value="authorAscending">Author (A to Z)</option>
+                <option value="authorDescending">Author (Z to A)</option>
+                <option value="dateAscending">Oldest</option>
+                <option value="dateDescending">Recent</option>
+            </select>
+        </div>
+        <div class="blog-container" id="blogContainer">
+            <!-- Blogs will be dynamically added here using JavaScript -->
+        </div>
+
+    </main>
+
+    <script id="blogTemplate" type="text/template">
+        <div class="blog">
+            <!-- details and images are added dynamically -->
+            <div class="image-container">
+                <img id="dynamicImage" src="{{image}}" alt="image" >
+            </div>
+            <h2>{{title}}</h2>
+            <p>By {{author}}</p>
+            <p>Published on {{date}}</p>
+            <button class="like-button" >
+                 Like
+            </button>
+        </div>
+    </script>
+
+    <script>
+        // JavaScript code to fetch and display blogs from the JSON file
+        fetch('blogs.json')
+            .then(response => response.json())
+            .then(data => {
+                let blogsData = data.blogs;
+                const blogContainer = document.getElementById('blogContainer');
+                const blogTemplate = document.getElementById('blogTemplate').innerHTML;
+                
+                function renderBlogs() {
+                    blogContainer.innerHTML = '';
+                    blogsData.forEach(blog => {
+                        const blogDiv = document.createElement('div');
+                        blogDiv.innerHTML = blogTemplate
+                        // fetching blogs details from blogs.json 
+                            .replace('{{image}}', blog.image)
+                            .replace('{{title}}', blog.title)
+                            .replace('{{author}}', blog.author)
+                            .replace('{{date}}', blog.date);
+                         // Add an event listener to each blog title to display the article content
+                        blogDiv.querySelector('img').addEventListener('click', () => {
+                            
+                            console.log(blog.content);
+                            // alerting the user with an article when user clicks on image
+                            alert(`"${blog.title}":\n\n${blog.content}`);
+                        });
+                        blogDiv.querySelector('h2').addEventListener('click', () => {
+                            console.log(blog.content);
+                            // alerting the user with an article when user clicks on title
+                            alert(`"${blog.title}":\n\n${blog.content}`);
+                        });
+                        // like button
+                        blogDiv.querySelector('button').addEventListener('click', () => {
+                            const likeButton = blogDiv.querySelector('button');
+                            likeButton.classList.toggle('highlight');
+                        });
+                        blogContainer.appendChild(blogDiv);
+                    });
+                }
+                // sorting by title
+
+                function sortBlogsByTitle(order) {
+                    blogsData.sort((a, b) => {
+                        const titleA = a.title.toUpperCase();
+                        const titleB = b.title.toUpperCase();
+                        if (order === 'ascending') {
+                            return titleA.localeCompare(titleB);
+                        } else {
+                            return titleB.localeCompare(titleA);
+                        }
+                    });
+                    renderBlogs();
+                }
+                // sorting by author name
+
+                function sortBlogsByAuthor(order) {
+                    blogsData.sort((a, b) => {
+                        const authorA = a.author.toUpperCase();
+                        const authorB = b.author.toUpperCase();
+                        if (order === 'ascending') {
+                            return authorA.localeCompare(authorB);
+                        } else {
+                            return authorB.localeCompare(authorA);
+                        }
+                    });
+                    renderBlogs();
+                }
+
+                // sorting by dates
+
+                function sortBlogsByDate(order) {
+                    blogsData.sort((a, b) => {
+                        const dateA = new Date(a.date);
+                        const dateB = new Date(b.date);
+                        if (order === 'ascending') {
+                            return dateA - dateB;
+                        } else {
+                            return dateB - dateA;
+                        }
+                    });
+                    renderBlogs();
+                }
+
+
+                // user choice taken as input to apply changes
+                
+                const sortSelect = document.getElementById('sortSelect');
+                sortSelect.addEventListener('change', () => {
+                    const selectedValue = sortSelect.value;
+                    if (selectedValue === 'titleAscending') {
+                        sortBlogsByTitle('ascending');
+                    } else if (selectedValue === 'titleDescending') {
+                        sortBlogsByTitle('descending');
+                    } else if (selectedValue === 'authorAscending') {
+                        sortBlogsByAuthor('ascending');
+                    } else if (selectedValue === 'authorDescending') {
+                        sortBlogsByAuthor('descending');
+                    } else if (selectedValue === 'dateAscending') {
+                        sortBlogsByDate('ascending');
+                    } else if (selectedValue === 'dateDescending') {
+                        sortBlogsByDate('descending');
+                    }
+                });
+
+                renderBlogs();
+            })
+            .catch(error => console.error('Error fetching blogs:', error));
+    </script>
+</body>
+</html>
+
