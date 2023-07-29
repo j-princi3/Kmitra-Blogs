@@ -118,7 +118,6 @@
         <div class="blog-sort">
             <label for="sortSelect">Sort By:</label>
             <select id="sortSelect">
-                <!-- providing menu to the user -->
                 <option value="titleAscending">Title (A to Z)</option>
                 <option value="titleDescending">Title (Z to A)</option>
                 <option value="authorAscending">Author (A to Z)</option>
@@ -130,12 +129,9 @@
         <div class="blog-container" id="blogContainer">
             <!-- Blogs will be dynamically added here using JavaScript -->
         </div>
-
     </main>
-
     <script id="blogTemplate" type="text/template">
         <div class="blog">
-            <!-- details and images are added dynamically -->
             <div class="image-container">
                 <img id="dynamicImage" src="{{image}}" alt="image" >
             </div>
@@ -149,6 +145,76 @@
     </script>
 
     <script>
+        // JavaScript code to fetch and display blogs from the JSON data
+        const jsonData = {
+            "blogs": [
+                {
+                    "title": "The Importance of Continuous Learning",
+                    "author": "Jayashree",
+                    "date": "2023-07-15",
+                    "image": "https://source.unsplash.com/1250x700/?learning",
+                    "content": "Continuous learning is a crucial aspect of personal and professional growth. In this fast-paced world, knowledge and skills quickly become outdated, making it essential to keep learning and adapting. Embracing a learning mindset enables us to stay ahead of the curve and seize new opportunities. Whether it's acquiring new technical skills, exploring new subjects, or improving interpersonal skills, continuous learning enriches our lives and opens doors to new possibilities. So, let's embark on a journey of lifelong learning and unlock the doors to a brighter future."
+                },
+                {
+                    "title": "Exploring the Wonders of Nature",
+                    "author": "Sai Krishna",
+                    "date": "2023-07-10",
+                    "image": "https://source.unsplash.com/1250x700/?nature",
+                    "content": "Nature has a magical way of captivating our hearts and souls. From breathtaking landscapes to fascinating wildlife, the wonders of nature never cease to amaze us. Exploring the great outdoors not only brings us closer to the beauty of the world but also helps us find peace and tranquility amidst our busy lives. The rustling leaves, chirping birds, and gentle breeze remind us of the simplicity and harmony in nature. So, let's take a moment to appreciate and cherish the wonders of nature, for they are a true source of inspiration and joy."
+                },
+                {
+                    "title": "The Art of Mindfulness",
+                    "author": "Shivani",
+                    "date": "2023-07-05",
+                    "image": "https://source.unsplash.com/1250x700/?mindfulness",
+                    "content": "Mindfulness is the practice of being fully present and aware of the present moment without judgment. It allows us to embrace the here and now, appreciating the simple joys that life offers. Through mindfulness, we can cultivate a deeper connection with ourselves and those around us, fostering compassion and understanding. By staying present, we can reduce stress, improve focus, and enhance overall well-being. Let's embark on the journey of mindfulness and unlock the power of living in the present, one breath at a time."
+                },
+                {
+                    "title": "A Journey to the Stars",
+                    "author": "Sanjay",
+                    "date": "2023-07-02",
+                    "image": "https://source.unsplash.com/1250x700/?stars",
+                    "content": "Looking up at the night sky, we are filled with wonder and curiosity about the vast universe beyond. Embarking on a journey to the stars, we delve into the realms of astronomy and astrophysics, exploring distant galaxies, mesmerizing nebulae, and celestial phenomena. The beauty of the cosmos ignites our imagination and reminds us of our place in the grand cosmic tapestry. Let's gaze at the stars with awe and appreciation, for they hold the secrets of the universe and inspire us to reach for the stars in our own lives."
+                },
+                {
+                    "title": "The Joy of Cooking",
+                    "author": "Jayashree",
+                    "date": "2023-06-28",
+                    "image": "https://source.unsplash.com/1250x700/?cooking",
+                    "content": "Cooking is not merely a mundane task; it is an art that nourishes the body and soul. The joy of cooking lies in the creative process of combining ingredients and flavors to craft delectable dishes. From the sizzle of spices in the pan to the aroma that fills the kitchen, cooking engages all our senses. It brings people together, creating cherished memories around the dining table. Let's embrace the joy of cooking and relish the pleasures of preparing and sharing delicious meals with loved ones."
+                },
+                {
+                    "title": "The Beauty of Wildlife",
+                    "author": "Sai Krishna",
+                    "date": "2023-06-20",
+                    "image": "https://source.unsplash.com/1250x700/?wildlife",
+                    "content": "Wildlife embodies the raw beauty and diversity of our natural world. From majestic creatures roaming the savannah to colorful birds taking flight, the wonders of wildlife leave us awe-struck. Conservation and appreciation of wildlife are crucial to maintaining the delicate balance of our ecosystems. Observing animals in their natural habitat instills a sense of humility and respect for all living beings. Let's celebrate the beauty of wildlife and work together to protect and preserve the rich biodiversity that surrounds us."
+                },
+                {
+                    "title": "Finding Inner Peace",
+                    "author": "Jayashree",
+                    "date": "2023-06-15",
+                    "image": "https://source.unsplash.com/1250x700/?peace",
+                    "content": "In the midst of life's challenges and chaos, finding inner peace becomes a precious gift. Inner peace is not about avoiding difficulties but about navigating through them with grace and tranquility. By cultivating mindfulness, practicing self-compassion, and seeking harmony within, we can find solace in the most turbulent times. Let's embark on the journey of self-discovery and embrace the serenity that resides within us, for true peace comes from within."
+                },
+                {
+                    "title": "Capturing Moments",
+                    "author": "Sai Krishna",
+                    "date": "2023-06-10",
+                    "image": "https://source.unsplash.com/1250x700/?moments",
+                    "content": "Life is a collection of moments that define who we are and the memories we cherish. From the laughter shared with friends to the beauty of a sunset, capturing these moments allows us to relive the magic of life. Whether through photography, writing, or simply being fully present, we can savor the joy and emotions that each moment brings. Let's embrace the art of capturing moments, for it is in these fleeting instants that we find the essence of life's journey."
+                }
+            ]
+          };
+        const blogsData = jsonData.blogs;
+        const blogContainer = document.getElementById('blogContainer');
+        const blogTemplate = document.getElementById('blogTemplate').innerHTML;
+
+        // Rest of the JavaScript code for rendering blogs, sorting, and handling events remains the same
+
+        // ...
+        // Rest of the JavaScript code remains unchanged
+        // ...
         // JavaScript code to fetch and display blogs from the JSON file
         fetch('blogs.json')
             .then(response => response.json())
@@ -258,4 +324,3 @@
     </script>
 </body>
 </html>
-
